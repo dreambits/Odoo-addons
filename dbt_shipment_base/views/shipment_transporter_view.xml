@@ -1,0 +1,57 @@
+<odoo>
+    <data>        
+        
+        <record id="action_shipment_transporters" model="ir.actions.act_window">
+            <field name="name">Shipment Transporters</field>
+            <field name="res_model">dbt.shipment.transporter</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="view_dbt_shipment_transporters_form" model="ir.ui.view">
+            <field name="name">dbt.shipment.transporter.form</field>
+            <field name="model">dbt.shipment.transporter</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group name="dbt_shipment_transporter">
+                            <field name="name"/>
+                            <field name="transporter_code" />
+                            <field name="transporter_type" />
+                        </group>
+
+                        <group name="dbt_shipment_methods">
+                            <field name="returns_file" attrs="{'invisible':[('transporter_type','=','manual')]}"/>
+                            <field name="generate_file_method" attrs="{'invisible':[('transporter_type','=','manual')]}"/>
+                            <field name="get_output_method" attrs="{'invisible':[('transporter_type','=','manual')]}"/>
+                        </group>
+
+                        <group name="boolean_active">
+                            <field name="active" />
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_dbt_shipment_transporters_tree" model="ir.ui.view">
+            <field name="name">dbt.shipment.transporter.tree</field>
+            <field name="model">dbt.shipment.transporter</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree>
+                            <field name="name"/>
+                            <field name="transporter_code"/>
+                            <field name="transporter_type"/>
+                            <field name="active" />
+                </tree>
+            </field>
+        </record>
+
+        <menuitem name="Shipment Transporters" id="menu_sale_config_shipment_transporter" parent="sales_team.menu_sale_config" sequence="0" groups="stock.group_stock_manager" action="action_shipment_transporters" />
+
+    </data>
+</odoo>
+

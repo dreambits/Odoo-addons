@@ -1,0 +1,51 @@
+<odoo>
+    <data>        
+        
+        <record id="action_sources" model="ir.actions.act_window">
+            <field name="name">Shipments</field>
+            <field name="res_model">sale.order.source</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="view_dbt_sources_form" model="ir.ui.view">
+            <field name="name">sale.order.source.form</field>
+            <field name="model">sale.order.source</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Sources">
+                    <group>
+                        <field name="name"/>
+                        <field name="code"/>
+                        <field name="provides_label"/>
+                        <field name="relevant_transporters" widget="many2many_tags" options="{'no_create_edit': True}"/>
+                    </group>
+                    <notebook>
+                        <page string="Sales Order">
+                            <field name="relevant_sales" widget="one2many_list" options="{'no_create_edit': True}"/>
+                        </page>
+                    </notebook>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_dbt_sources_tree" model="ir.ui.view">
+            <field name="name">sale.order.source.tree</field>
+            <field name="model">sale.order.source</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree>
+                        <field name="name" />
+                        <field name="code"/>
+                        <field name="provides_label"/>
+                        <field name="relevant_transporters"/>
+                </tree>
+            </field>
+        </record>
+
+        <menuitem name="Sales Order Sources" id="menu_sale_config_sources" parent="sales_team.menu_sale_config" sequence="1" groups="sales_team.group_sale_manager" action="action_sources" />
+
+    </data>
+</odoo>
+

@@ -1,0 +1,2 @@
+"id","name","transporter_code","transporter_type","returns_file","generate_file_method","get_output_method"
+"transporter_manual","Manual","manual","manual",False,"manual_label_get","manual_label_output_get"

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="custom_transporter_marketplace" model="ir.ui.view">
+        <field name="model">dbt.shipment.transporter</field>
+        <field name="inherit_id" ref="dbt_shipment_base.view_dbt_shipment_transporters_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='get_output_method']" position="after">
+                <field name="related_source"  widget="many2many_tags" options="{'no_create_edit': True}"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="custom_sale_order_form_marketplace" model="ir.ui.view">
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='transporter']" position="before">
+                <field name="sale_order_source" />
+            </xpath>
+        </field>
+    </record>
+</odoo>
