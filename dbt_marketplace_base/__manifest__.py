@@ -10,7 +10,7 @@
         This module is a must-dependancy for all MarketPlace Integration Module
         By Dreambits.
    """,
-    'author': 'Karan Shah/Dreambits',
+    'author': 'Karan Shah/Dreambits Technologies Pvt. Ltd.',
     'category': '',
     'website': 'https://www.dreambits.in',
     'demo': [],
@@ -18,6 +18,7 @@
         'views/shipment_view.xml',
         'views/stock_picking_view.xml',
     ],
+    'license': 'LGPL-3',
     'installable': True,
     'auto_install': False,
 }
