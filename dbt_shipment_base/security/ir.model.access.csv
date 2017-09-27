@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_sale_order_source,access_sale_order_source,model_sale_order_source,,1,0,0,0
+access_dbt_shipment_transporter,access_dbt_shipment_transporter,model_dbt_shipment_transporter,,1,0,0,0
+access_dbt_shipment,access_dbt_shipment,model_dbt_shipment,,1,0,0,0

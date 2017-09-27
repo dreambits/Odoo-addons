@@ -138,6 +138,8 @@ class CustomSaleOrder(models.Model):
         self.create_shipment()
         return res
 
+    @api.model
+    @api.one
     def write(self,  vals):
         res = super(CustomSaleOrder, self).write(vals)
 
