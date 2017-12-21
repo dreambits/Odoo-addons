@@ -127,7 +127,6 @@ class CustomSaleOrder(models.Model):
         name_list = []
 
         for t in transporters:
-            _logger.info(t)
             name_list.append((t.transporter_code, t.name))
 
         return name_list
