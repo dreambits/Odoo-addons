@@ -21,6 +21,7 @@
         'views/shipment_sequence.xml',
         'views/stock_picking_view.xml',
         'views/shipment_scheduler.xml',
+        'views/res_company_view.xml',
 
         'security/ir.model.access.csv',
     ],
