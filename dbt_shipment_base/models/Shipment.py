@@ -208,12 +208,6 @@ class CustomStockPicking(models.Model):
         prev = super(CustomStockPicking, self).do_transfer()
         _logger.info("We are now inside stock picking")
 
-        # No need for below "delivery_ids",
-        # picking type has been made dynamic in res.company
-        # delivery_ids = self.env['stock.picking.type'].search([
-        #     ('name', '=', 'Pack')
-        # ])
-
         company = self.env['res.company']._company_default_get('stock.picking')
         picking_type = company.shippment_picking_type_id.id
         _logger.info("picking_type-> {0}".format(picking_type))
@@ -260,12 +254,6 @@ class CustomStockPicking(models.Model):
             _logger.info(rec)
             shipment = rec.associated_shipment
             if shipment:
-
-                # No need for below "delivery_ids",
-                # picking type has been made dynamic in res.company
-                # delivery_ids = rec.env['stock.picking.type'].search([
-                #     ('name', '=', 'Pack')
-                # ])
 
                 # lets check the state and type now
                 _logger.info(rec.picking_type_id)
