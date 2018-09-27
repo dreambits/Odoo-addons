@@ -207,10 +207,12 @@ class CustomStockPicking(models.Model):
     def do_transfer(self):
         prev = super(CustomStockPicking, self).do_transfer()
         _logger.info("We are now inside stock picking")
-        delivery_ids = self.env['stock.picking.type'].search([
-            ('name', '=', 'Pack')
-        ])
-        if self.picking_type_id in delivery_ids:
+
+        company = self.env['res.company']._company_default_get('stock.picking')
+        picking_type = company.shippment_picking_type_id.id
+        _logger.info("picking_type-> {0}".format(picking_type))
+
+        if self.picking_type_id.id == picking_type:
             transporter = self.associated_shipment.transporter
             _logger.info("this is delivery and this is its courier decided")
             _logger.info(transporter)
@@ -225,8 +227,8 @@ class CustomStockPicking(models.Model):
                 _logger.info("Manual transportation so no label is generated")
                 self.associated_shipment.state = "ready_shipment"
             else:
-                #  transporter's method need to update label state and state
-                #  of shipment
+                #  The transporter's method need to update label state and
+                # state of shipment
                 _logger.info("now lets call this methods")
                 #  we are sending the stock picking object while calling the
                 #  method so it should get the relevant shipment and keep it
@@ -252,16 +254,17 @@ class CustomStockPicking(models.Model):
             _logger.info(rec)
             shipment = rec.associated_shipment
             if shipment:
-                delivery_ids = rec.env['stock.picking.type'].search([
-                    ('name', '=', 'Pack')
-                ])
+
                 # lets check the state and type now
                 _logger.info(rec.picking_type_id)
                 _logger.info(rec.state)
 
+                company = self.env['res.company']._company_default_get('stock.picking')
+                picking_type = company.shippment_picking_type_id.id
+                _logger.info("picking_type-> {0}".format(picking_type))
                 # when the packing stock.picking is available then state should
                 # be changed to 'ready'
-                if rec.picking_type_id in delivery_ids:
+                if rec.picking_type_id.id == picking_type:
                     if rec.state == "assigned":
                         shipment.state = "ready"
 
