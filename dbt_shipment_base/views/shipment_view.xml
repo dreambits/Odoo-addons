@@ -1,6 +1,6 @@
 <odoo>
-    <data>        
-        
+    <data>
+
         <record id="action_shipments" model="ir.actions.act_window">
             <field name="name">Shipments</field>
             <field name="res_model">dbt.shipment</field>
@@ -16,21 +16,21 @@
             <field name="arch" type="xml">
                 <form string="Shipments" create="false">
                     <header>
-                        <button name="action_sync" type="object" string="Ready for Sync" attrs="{'invisible':['|',('ready_for_sync','=',True),('state','not in',('ready_shipment','done'))]}" /> 
+                        <button name="action_sync" type="object" string="Ready for Sync" attrs="{'invisible':['|',('ready_for_sync','=',True),('state','not in',('ready_shipment','done'))]}" />
                         <field name="state" widget="statusbar" statusbar_visible="ready,packing,ready_shipment,done" />
                     </header>
                     <sheet>
                         <field name="ready_for_sync" attrs="{'invisible':'1'}"/>
                         <field name="synced" attrs="{'invisible':'1'}"/>
-	                    <div class="oe_title">
-    	                    <h1>
-        	                    <field name="name" readonly="1"/>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" readonly="1"/>
                             </h1>
                             <div>
                                 <label for="associated_sale"  class="oe_edit_only"/>
                                 <field name="associated_sale"  readonly="1"/>
                             </div>
-                    	</div>
+                        </div>
                         <group name="dbt_shipment">
                             <field name="shipment_id"  readonly="1"/>
                             <field name="transporter" attrs="{'readonly':[('ready_for_sync','=',True)]}"/>
@@ -72,7 +72,7 @@
                                 </group>
                             </page>
 
-						</notebook>
+                        </notebook>
 
                     </sheet>
                 </form>
@@ -93,7 +93,7 @@
             </field>
         </record>
 
-        <menuitem name="Shipments" id="menu_sale_config_shipment" parent="sales_team.menu_sales" sequence="11" groups="stock.group_stock_manager" action="action_shipments" />
+        <menuitem name="Shipments" id="menu_sale_config_shipment" parent="sale.sale_order_menu" sequence="11" groups="stock.group_stock_manager" action="action_shipments" />
 
     </data>
 </odoo>

@@ -1,6 +1,6 @@
 {
     'name': 'Dreambits Shipments Base',
-    'version': '10.0.1.0.0',
+    'version': '11.0.1.0.0',
     'depends': ['base','stock','sale'],
     'summary': 'Module to have Shipment and Shipment Transporter Models',
     'description': """

@@ -4,6 +4,12 @@
 from odoo import models,  fields,  api
 import logging
 
+import sys
+
+PY3 = False
+if sys.version_info[0] > 2:
+    PY3 = True
+
 _logger = logging.getLogger(__name__)
 
 
@@ -151,7 +157,8 @@ class CustomSaleOrder(models.Model):
         ]
         _logger.info("Writing vals for SO")
         _logger.info(vals)
-        if any(v in dependant_fields for v in vals.keys()):
+        vals_keys = PY3 and list(vals.keys()) or vals.keys()
+        if any(v in dependant_fields for v in vals_keys):
             self.create_shipment()
         return res
 
@@ -193,8 +200,12 @@ class CustomSaleOrder(models.Model):
             # lets see if picking_ids is added
             _logger.info("Setting pickingS")
             _logger.info(self.picking_ids)
-            pickings = [x if isinstance(x, (int, long)) else x.id
-                        for x in self.picking_ids]
+            if PY3:
+                pickings = [x if isinstance(x, int) else x.id
+                            for x in self.picking_ids]
+            else:
+                pickings = [x if isinstance(x, (int, long)) else x.id
+                            for x in self.picking_ids]
             _logger.info(pickings)
             if pickings:
                 shipment.associated_pickings = [(6, False, pickings)]
@@ -243,7 +254,7 @@ class CustomStockPicking(models.Model):
         return prev
 
     @api.multi
-    def write(self,  vals):
+    def write(self, vals):
         _logger.info("inside stock picking write")
         _logger.info(self)
         _logger.info(vals)

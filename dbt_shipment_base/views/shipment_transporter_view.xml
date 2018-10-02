@@ -1,6 +1,6 @@
 <odoo>
-    <data>        
-        
+    <data>
+
         <record id="action_shipment_transporters" model="ir.actions.act_window">
             <field name="name">Shipment Transporters</field>
             <field name="res_model">dbt.shipment.transporter</field>
@@ -50,7 +50,7 @@
             </field>
         </record>
 
-        <menuitem name="Shipment Transporters" id="menu_sale_config_shipment_transporter" parent="sales_team.menu_sale_config" sequence="0" groups="stock.group_stock_manager" action="action_shipment_transporters" />
+        <menuitem name="Shipment Transporters" id="menu_sale_config_shipment_transporter" parent="sale.menu_sale_config" sequence="0" groups="stock.group_stock_manager" action="action_shipment_transporters" />
 
     </data>
 </odoo>
