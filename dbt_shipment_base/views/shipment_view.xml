@@ -20,8 +20,8 @@
                         <field name="state" widget="statusbar" statusbar_visible="ready,packing,ready_shipment,done" />
                     </header>
                     <sheet>
-                        <field name="ready_for_sync" attrs="{'invisible':'1'}"/>
-                        <field name="synced" attrs="{'invisible':'1'}"/>
+                        <field name="ready_for_sync" attrs="{'invisible':True}"/>
+                        <field name="synced" attrs="{'invisible':True}"/>
                         <div class="oe_title">
                             <h1>
                                 <field name="name" readonly="1"/>
@@ -41,34 +41,34 @@
 
                         <notebook>
                             <page string="Associated pickings">
-                                <field name="associated_pickings"  readonly="1"/>
+                                <field name="associated_pickings" readonly="1"/>
                             </page>
 
                             <page String="Input Details" attrs="{'invisible':[('input_file_name','=',False)]}" >
                                 <group>
-                                    <field name="input_file_name"  readonly="1"/>
-                                    <field name="input_file_content"  readonly="1"/>
+                                    <field name="input_file_name" readonly="1"/>
+                                    <field name="input_file_content" readonly="1"/>
                                 </group>
                             </page>
 
                             <page String="Output Details" attrs="{'invisible':[('output_file_name','=',False)]}" >
                                 <group>
-                                <field name="output_file_name"  readonly="1"/>
-                                <field name="output_file_content"  readonly="1"/>
+                                <field name="output_file_name" readonly="1"/>
+                                <field name="output_file_content" readonly="1"/>
                                 </group>
                             </page>
 
                             <page String="Log Details" attrs="{'invisible':[('log_file_name','=',False)]}" >
                                 <group>
-                                <field name="log_file_name"  readonly="1"/>
-                                <field name="log_file_content"  readonly="1"/>
+                                <field name="log_file_name" readonly="1"/>
+                                <field name="log_file_content" readonly="1"/>
                                 </group>
                             </page>
 
                             <page String="Error Details" attrs="{'invisible':[('error_file_name','=',False)]}" >
                                 <group>
-                                <field name="error_file_name"  readonly="1"/>
-                                <field name="error_file_content"  readonly="1"/>
+                                <field name="error_file_name" readonly="1"/>
+                                <field name="error_file_content" readonly="1"/>
                                 </group>
                             </page>
 
@@ -93,8 +93,6 @@
             </field>
         </record>
 
-        <menuitem name="Shipments" id="menu_sale_config_shipment" parent="sale.sale_order_menu" sequence="11"
-            action="action_shipments" />
+        <menuitem name="Shipments" id="menu_sale_config_shipment" parent="sale.sale_order_menu" sequence="11" groups="stock.group_stock_manager" action="action_shipments" />
 
-            <!-- groups="stock.group_stock_manager"  -->
 </odoo>
