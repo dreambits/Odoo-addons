@@ -123,7 +123,7 @@ class CustomSaleOrder(models.Model):
     _inherit = 'sale.order'
 
     associated_shipment = fields.Many2one('dbt.shipment', 'Shipment')
-    transporter = fields.Selection(string='Tranporter',
+    transporter = fields.Selection(string='Transporter',
                                    selection='get_transporters')
 
     @api.model
@@ -137,15 +137,14 @@ class CustomSaleOrder(models.Model):
 
         return name_list
 
-    @api.model
+    @api.multi
     def action_confirm(self):
         res = super(CustomSaleOrder, self).action_confirm()
         self.create_shipment()
         return res
 
-    @api.model
-    @api.one
-    def write(self,  vals):
+    @api.multi
+    def write(self, vals):
         res = super(CustomSaleOrder, self).write(vals)
 
         dependant_fields = [
@@ -283,7 +282,7 @@ class CustomStockPicking(models.Model):
                         # is updated then we should
                         #  change the state to 'packing'
                         if any([x.qty_done > 0
-                                for x in rec.pack_operation_ids]):
+                                for x in rec.move_line_ids]):
                             shipment.state = "packing"
 
                     # when the packing stock.picking is 'done' then the state
