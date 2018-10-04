@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
+
     <record id="custom_stock_picking_view" model="ir.ui.view">
         <field name="model">stock.picking</field>
-        <field name="inherit_id" ref="stock.view_picking_form" />
+        <field name="inherit_id" ref="stock.view_picking_form"/>
         <field name="arch" type="xml">
             <xpath expr="//field[@name='location_dest_id']" position="after">
-                <field name="associated_shipment" />
+                <field name="associated_shipment"/>
             </xpath>
         </field>
     </record>
 
     <record id="custom_sale_order_form_transporter" model="ir.ui.view">
         <field name="model">sale.order</field>
-        <field name="inherit_id" ref="sale.view_order_form" />
+        <field name="inherit_id" ref="sale.view_order_form"/>
         <field name="arch" type="xml">
             <xpath expr="//field[@name='partner_shipping_id']" position="after">
                 <field name="transporter" attrs="{'invisible':[('associated_shipment','!=',False)]}"/>
@@ -20,4 +21,5 @@
             </xpath>
         </field>
     </record>
+
 </odoo>

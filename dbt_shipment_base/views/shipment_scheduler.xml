@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<openerp>
+<odoo>
     <data noupdate="1">
+
         <record id="ir_cron_scheduler_dhl" model="ir.cron">
             <field name="name">Shipment Output Fetching</field>
             <field name="user_id" ref="base.user_root"/>
@@ -11,5 +12,7 @@
             <field ref="dbt_shipment_base.model_dbt_shipment" name="model_id"/>
             <field eval="'update_state'" name="function"/>
         </record>
+
    </data>
-</openerp>
+</odoo>
+

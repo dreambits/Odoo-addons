@@ -214,8 +214,9 @@ class CustomStockPicking(models.Model):
     _inherit = 'stock.picking'
     associated_shipment = fields.Many2one('dbt.shipment', 'Shipment')
 
-    def do_transfer(self):
-        prev = super(CustomStockPicking, self).do_transfer()
+    @api.multi
+    def action_done(self):
+        prev = super(CustomStockPicking, self).action_done()
         _logger.info("We are now inside stock picking")
 
         company = self.env['res.company']._company_default_get('stock.picking')
