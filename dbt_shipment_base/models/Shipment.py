@@ -117,7 +117,7 @@ class CustomSaleOrder(models.Model):
     _inherit = 'sale.order'
 
     associated_shipment = fields.Many2one('dbt.shipment', 'Shipment')
-    transporter = fields.Selection(string='Tranporter',
+    transporter = fields.Selection(string='Transporter',
                                    selection='get_transporters')
 
     @api.model
@@ -131,15 +131,14 @@ class CustomSaleOrder(models.Model):
 
         return name_list
 
-    @api.model
+    @api.multi
     def action_confirm(self):
         res = super(CustomSaleOrder, self).action_confirm()
         self.create_shipment()
         return res
 
-    @api.model
-    @api.one
-    def write(self,  vals):
+    @api.multi
+    def write(self, vals):
         res = super(CustomSaleOrder, self).write(vals)
 
         dependant_fields = [
@@ -151,7 +150,8 @@ class CustomSaleOrder(models.Model):
         ]
         _logger.info("Writing vals for SO")
         _logger.info(vals)
-        if any(v in dependant_fields for v in vals.keys()):
+
+        if any(v in dependant_fields for v in list(vals.keys())):
             self.create_shipment()
         return res
 
@@ -193,7 +193,8 @@ class CustomSaleOrder(models.Model):
             # lets see if picking_ids is added
             _logger.info("Setting pickingS")
             _logger.info(self.picking_ids)
-            pickings = [x if isinstance(x, (int, long)) else x.id
+
+            pickings = [x if isinstance(x, int) else x.id
                         for x in self.picking_ids]
             _logger.info(pickings)
             if pickings:
@@ -204,8 +205,9 @@ class CustomStockPicking(models.Model):
     _inherit = 'stock.picking'
     associated_shipment = fields.Many2one('dbt.shipment', 'Shipment')
 
-    def do_transfer(self):
-        prev = super(CustomStockPicking, self).do_transfer()
+    @api.multi
+    def action_done(self):
+        prev = super(CustomStockPicking, self).action_done()
         _logger.info("We are now inside stock picking")
 
         company = self.env['res.company']._company_default_get('stock.picking')
@@ -243,7 +245,7 @@ class CustomStockPicking(models.Model):
         return prev
 
     @api.multi
-    def write(self,  vals):
+    def write(self, vals):
         _logger.info("inside stock picking write")
         _logger.info(self)
         _logger.info(vals)
@@ -272,7 +274,7 @@ class CustomStockPicking(models.Model):
                         # is updated then we should
                         #  change the state to 'packing'
                         if any([x.qty_done > 0
-                                for x in rec.pack_operation_ids]):
+                                for x in rec.move_line_ids]):
                             shipment.state = "packing"
 
                     # when the packing stock.picking is 'done' then the state
