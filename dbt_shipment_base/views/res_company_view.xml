@@ -5,7 +5,8 @@
         <field name="name">res.company.form.dbt_shipment_base.inherit</field>
         <field name="model">res.company</field>
         <field name="inherit_id" ref="base.view_company_form"/>
-        <field name="arch" type="xml"><xpath expr="//notebook" position="inside">
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
                 <page name="shipment_config" string="Shipment Configuration">
                     <group>
                         <field name="shippment_picking_type_id"/>
@@ -16,4 +17,3 @@
     </record>
 
 </odoo>
-
