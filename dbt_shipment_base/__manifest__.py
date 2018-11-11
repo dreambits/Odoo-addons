@@ -1,7 +1,7 @@
 {
     'name': 'Dreambits Shipments Base',
     'version': '12.0.1.0.0',
-    'depends': ['base', 'sale_stock'],
+    'depends': ['sale_management','stock'],
     'summary': 'Module to have Shipment and Shipment Transporter Models',
     'description': """
         This module includes shipment and shipment transporter models which will
