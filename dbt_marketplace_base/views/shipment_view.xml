@@ -44,7 +44,7 @@
             </field>
         </record>
 
-        <menuitem name="Sales Order Sources" id="menu_sale_config_sources" parent="sales_team.menu_sale_config" sequence="1" groups="sales_team.group_sale_manager" action="action_sources" />
+        <menuitem name="Sales Order Sources" id="menu_sale_config_sources" parent="sale.menu_sale_config" sequence="1" groups="sales_team.group_sale_manager" action="action_sources" />
 
     </data>
 </odoo>
