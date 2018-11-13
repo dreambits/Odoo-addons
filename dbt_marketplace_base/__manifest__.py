@@ -1,7 +1,7 @@
 {
     'name': 'Dreambits Marketplace Base',
-    'version': '10.0.1.0.0',
-    'depends': ['base','stock','sale','dbt_shipment_base'],
+    'version': '11.0.1.0.0',
+    'depends': ['dbt_shipment_base'],
     'summary': 'Module to have Shipment and Shipment Transporter Models',
     'description': """
         This module includes base for integrating various marketplaces into the
