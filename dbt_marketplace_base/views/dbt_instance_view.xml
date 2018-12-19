@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <!-- dbt instance form -->
+        <record id="view_dbt_instance_form" model="ir.ui.view">
+            <field name="name">dbt.marketplace.base.form</field>
+            <field name="model">dbt.marketplace.base</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="DBT instances">
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <label for="name" class="oe_edit_only"/>
+                                <field name="name" />
+                            </h1>
+                        </div>
+                       <group string="Option" attrs="{'invisible':[('connected','=',False)]}">
+                        </group>
+                        <group string="Connection">
+                            <!-- <field name="dbt_test"/> -->
+                            <field name="active"/>
+                            <field name="connected" />
+                            <button name="test_connection" string="Test Connection" type="object" attrs="{'invisible':[('connected','=',True)]}" />
+                        </group>
+                        <notebook>
+                            <page string="Sales" attrs="{'invisible':[('connected','=',False)]}">
+                                <!-- <field name="sales"/> -->
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- dbt instance tree -->
+        <record id="view_dbt_instance_tree" model="ir.ui.view">
+            <field name="name">dbt.marketplace.base.tree</field>
+            <field name="model">dbt.marketplace.base</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <!-- <field name="dbt_test"/> -->
+                </tree>
+            </field>
+        </record>
+
+
+<!-- bol instance kanban -->
+        <record model="ir.ui.view" id="view_dbt_instance_kanban">
+            <field name="name">dbt.marketplace.base.kanban</field>
+            <field name="model">dbt.marketplace.base</field>
+            <field name="arch" type="xml">
+                <kanban class="oe_background_grey o_kanban_dashboard o_stock_kanban" create="0">
+                    <field name="name"/>
+                    <field name="connected"/>
+                    <field name="latest_order_count"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div>
+
+                                <div class="o_kanban_card_header">
+                                    <div class="o_kanban_card_header_title">
+                                        <div class="o_primary">
+                                            <a type="object" name="get_action_latest_order_count">
+                                                <field name="name"/>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="o_kanban_manage_button_section">
+                                        <a class="o_kanban_manage_toggle_button" href="#">More <i class="fa fa-caret-down"/></a>
+                                    </div>
+                                </div>
+
+                                <div class="container o_kanban_card_content o_visible">
+                                    <div class="row text-muted">
+                                        <div class="col-6 o_kanban_primary_left">
+                                            <button class="btn btn-primary" type="action">
+                                                <span ><t t-esc="record.latest_order_count.value"/> - Latest Orders</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="container o_kanban_card_manage_pane dropdown-menu" role="menu">
+                                    <div name="dbt_div_view_main" class="row">
+                                        <div class="col-6 o_kanban_card_manage_section o_kanban_manage_view">
+                                            <div name="dbt_div_view_span" class="o_kanban_card_manage_title">
+                                                <span>View</span>
+                                            </div>
+                                            <div name="dbt_div_view_all_orders" >
+                                                <a name="view_all_orders" type="object">All Orders</a>
+                                            </div>
+                                            <div name="dbt_div_view_pending_orders" >
+                                                <a type="action">Pending Orders</a>
+                                            </div>
+                                            <div name="dbt_div_view_shipment" >
+                                                <a type="action">Shipments</a>
+                                            </div>
+                                        </div>
+                                        <div name="dbt_div_action_main" class="col-6 o_kanban_card_manage_section o_kanban_manage_new">
+                                            <div class="o_kanban_card_manage_title">
+                                                <span>Actions</span>
+                                            </div>
+                                            <div name="dbt_div_action_print_invoices" invisible="1">
+                                                <a type="action">Print invoice</a>
+                                            </div>
+                                            <div name="dbt_div_action_get_new_orders" >
+                                                <a name="fetch_order_action" type="object">Get new orders</a>
+                                            </div>
+                                            <div name="dbt_div_action_sync_shipment" invisible="1">
+                                                <a name="sync_shipment" type="action">Send shipping information to Bol</a>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div t-if="widget.editable" class="o_kanban_card_manage_settings row">
+                                        <div class="col-xs-8">
+                                            <ul class="oe_kanban_colorpicker" data-field="color"/>
+                                        </div>
+                                        <div name="dbt_div_setting" class="col-xs-4 text-right">
+                                            <a type="edit">Settings</a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <!-- dbt Dashboard action -->
+        <record id="dbt_dashboard_action" model="ir.actions.act_window">
+            <field name="name">dbt.com</field>
+            <field name="res_model">dbt.marketplace.base</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">kanban,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to create a Instance.
+              </p><p>
+              Here you can control all the major operations of your Connector instance and also see the latest orders summary.
+              This serves as center place to control and monitor multiple Connector instances.
+              </p>
+            </field>
+        </record>
+
+        <!-- dbt Instances -->
+        <record id="action_dbt_instances" model="ir.actions.act_window">
+          <field name="name">DBT Instances</field>
+          <field name="type">ir.actions.act_window</field>
+          <field name="res_model">dbt.marketplace.base</field>
+          <field name="view_type">form</field>
+          <field name="view_mode">tree,form</field>
+        </record>
+
+
+
+        <!-- ALL NEW EXPERIMENTS -->
+
+
+    <menuitem id="menu_dbt_marketplace_base" sequence="7" name="Marketplace" />
+
+        <!-- dbt instance form -->
+        <record id="view_new_dbt_instance_form" model="ir.ui.view">
+            <field name="name">dbt.marketplace.base.form</field>
+            <field name="model">dbt.marketplace.base</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="DBT instance">
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <label for="name" class="oe_edit_only"/>
+                                <field name="name" />
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="active" />
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- dbt instance tree -->
+        <record id="view_new_dbt_instance_tree" model="ir.ui.view">
+            <field name="name">dbt.marketplace.base.tree</field>
+            <field name="model">dbt.marketplace.base</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <!-- dbt Instance -->
+        <record id="action_new_dbt_instance" model="ir.actions.act_window">
+          <field name="name">DBT Instance</field>
+          <field name="type">ir.actions.act_window</field>
+          <field name="res_model">dbt.marketplace.base</field>
+          <field name="view_type">form</field>
+          <field name="view_mode">tree,form</field>
+        </record>
+
+
+    <menuitem action="action_new_dbt_instance" id="menu_action_new_dbt_instance" parent="menu_dbt_marketplace_base" sequence="0" />
+
+        <!-- dbt instance form -->
+        <!-- dbt instance kanban -->
+<!--         <record model="ir.ui.view" id="view_dbt_instance_kanban">
+            <field name="name">dbt.marketplace.base.kanban</field>
+            <field name="model">dbt.marketplace.base</field>
+            <field name="arch" type="xml">
+                <kanban class="oe_background_grey o_kanban_dashboard o_stock_kanban" create="0">
+                    <field name="name"/>
+                    <field name="connected"/>
+                    <field name="color"/>
+                    <field name="latest_order_count"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="#{kanban_color(record.color.raw_value)}">
+                                <div class="o_kanban_card_header" name="dbt_div_header">
+                                    <div class="o_kanban_card_header_title">
+                                        <div class="o_primary">
+                                            <a type="object" name="get_action_latest_order_count">
+                                                <field name="name"/>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="o_kanban_manage_button_section">
+                                        <a class="o_kanban_manage_toggle_button" href="#">More <i class="fa fa-caret-down"/></a>
+                                    </div>
+                                </div>
+
+                                <div class="container o_kanban_card_manage_pane o_invisible" name="dbt_div_container_manage_pane">
+                                    <div name="dbt_div_view_main" class="row">
+                                        <div class="col-xs-6 o_kanban_card_manage_section o_kanban_manage_view">
+                                            <div name="dbt_div_view_span" class="o_kanban_card_manage_title">
+                                                <span>View</span>
+                                            </div>
+                                        </div>
+                                        <div name="dbt_div_action_main" class="col-xs-6 o_kanban_card_manage_section o_kanban_manage_new">
+                                            <div name="dbt_div_action_span" class="o_kanban_card_manage_title">
+                                                <span>Actions</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div t-if="widget.editable" class="o_kanban_card_manage_settings row">
+                                        <div class="col-xs-8">
+                                            <ul class="oe_kanban_colorpicker" data-field="color"/>
+                                        </div>
+                                        <div name="dbt_div_setting" class="col-xs-4 text-right">
+                                            <a type="edit">Settings</a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="container o_kanban_card_content o_visible" name="dbt_div_container_content">
+                                    <div class="row text-muted">
+                                        <div class="col-xs-6 o_kanban_primary_left">
+                                            <button class="btn btn-primary" name="" type="action">
+                                                <span ><t t-esc="record.latest_order_count.value"/> - Latest Orders</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+ -->
+
+
+        <menuitem action="dbt_dashboard_action" id="menu_dbt_dashboard_action" parent="menu_dbt_marketplace_base" sequence="0" />
+
+
+    </data>
+</odoo>
+

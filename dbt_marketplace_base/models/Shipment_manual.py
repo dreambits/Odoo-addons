@@ -10,6 +10,7 @@ _logger = logging.getLogger(__name__)
 
 class ManualShipmentTransporter(models.Model):
     _inherit = "dbt.shipment.transporter"
+    _description = "Dbt shipment transporter: Model stores shipment transporter"
 
     def manual_label_get(self, picking):
         _logger.info("In manual mode, you don't need to generate label")
