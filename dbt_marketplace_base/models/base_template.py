@@ -2,7 +2,11 @@
 # -*- coding: utf-8 -*-
 
 import logging
-from odoo import models, fields, api
+import traceback
+
+from odoo import models, fields, api, _
+from odoo.exceptions import UserError
+
 from odoo.addons.queue_job.job import job
 
 _logger = logging.getLogger(__name__)
@@ -47,15 +51,63 @@ class DbtMarketplaceBase(models.Model):
 
     @api.multi
     def fetch_order_action(self):
-        self.log("Inside fetch_orders for marketplace")
-        self.log(self.enable_order_fetching)
-        if self.enable_order_fetching and self.child_class_name and self.child_class_id:
-            self.log("Function calling starts")
-            self.log(self.child_class_name)
-            self.log(self.child_class_id)
-            self.log("Child class found")
-            self.env[self.child_class_name].browse(
-                self.child_class_id).with_delay().fetch_orders()
+        try:
+            self.log("Inside fetch_orders for marketplace")
+            self.log(self.enable_order_fetching)
+            if self.enable_order_fetching and self.child_class_name and self.child_class_id:
+                self.log("Function calling starts")
+                self.log(self.child_class_name)
+                self.log(self.child_class_id)
+                self.log("Child class found")
+                self.env[self.child_class_name].browse(
+                    self.child_class_id).with_delay().fetch_orders()
+        except:
+            traceback.print_exc()
+
+    @api.multi
+    def sync_from_products_action(self):
+        try:
+            self.log("Inside sync_from_products_action for marketplace")
+            self.log(self.enable_order_fetching)
+            if self.enable_order_fetching and self.child_class_name and self.child_class_id:
+                self.log("Function calling starts")
+                self.log(self.child_class_name)
+                self.log(self.child_class_id)
+                self.log("Child class found")
+                self.env[self.child_class_name].browse(
+                    self.child_class_id).with_delay().sync_from_products()
+        except:
+            traceback.print_exc()
+
+    @api.multi
+    def sync_to_products_action(self):
+        try:
+            self.log("Inside sync_to_products_action for marketplace")
+            self.log(self.enable_order_fetching)
+            if self.enable_order_fetching and self.child_class_name and self.child_class_id:
+                self.log("Function calling starts")
+                self.log(self.child_class_name)
+                self.log(self.child_class_id)
+                self.log("Child class found")
+                self.env[self.child_class_name].browse(
+                    self.child_class_id).with_delay().sync_to_products()
+        except:
+            traceback.print_exc()
+
+    @api.multi
+    def sync_shipment_action(self):
+        try:
+            self.log("Inside sync_shipments_action for marketplace")
+            self.log(self.enable_order_fetching)
+            if self.enable_order_fetching and self.child_class_name and self.child_class_id:
+                self.log("Function calling starts")
+                self.log(self.child_class_name)
+                self.log(self.child_class_id)
+                self.log("Child class found")
+                self.env[self.child_class_name].browse(
+                    self.child_class_id).with_delay().sync_shipments()
+        except:
+            traceback.print_exc()
 
     @job
     def fetch_orders(self):
@@ -85,4 +137,4 @@ class DbtMarketplaceBase(models.Model):
         raise NotImplementedError('Must be overrided in child class')
 
     def view_shipment(self):
-        raise NotImplementedError('Must be overrided in child class')        
+        raise NotImplementedError('Must be overrided in child class')

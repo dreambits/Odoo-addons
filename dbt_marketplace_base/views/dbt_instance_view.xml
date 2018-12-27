@@ -48,7 +48,7 @@
         </record>
 
 
-<!-- bol instance kanban -->
+        <!-- bol instance kanban -->
         <record model="ir.ui.view" id="view_dbt_instance_kanban">
             <field name="name">dbt.marketplace.base.kanban</field>
             <field name="model">dbt.marketplace.base</field>
@@ -109,6 +109,15 @@
                                             </div>
                                             <div name="dbt_div_action_get_new_orders" >
                                                 <a name="fetch_order_action" type="object">Get new orders</a>
+                                            </div>
+                                            <div name="dbt_div_action_sync_from_products" >
+                                                <a name="sync_from_products_action" type="object">Sync products from Bol</a>
+                                            </div>
+                                            <div name="dbt_div_action_sync_to_products" >
+                                                <a name="sync_to_products_action" type="object">Sync products to Bol</a>
+                                            </div>
+                                            <div name="dbt_div_action_sync_shipment" >
+                                                <a name="sync_shipment_action" type="object">Sync shipment</a>
                                             </div>
                                             <div name="dbt_div_action_sync_shipment" invisible="1">
                                                 <a name="sync_shipment" type="action">Send shipping information to Bol</a>
