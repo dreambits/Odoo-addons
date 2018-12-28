@@ -21,7 +21,7 @@ class DbtMarketplaceBase(models.Model):
     active = fields.Boolean('Active')
     connected = fields.Boolean('Connection Tested')
 
-    latest_order_count = fields.Integer("New Order Count")
+    latest_order_count = fields.Integer("New Order Count", compute="get_latest_order_count")
 
     enable_order_fetching = fields.Boolean('Enable Order fetching')
     enable_product_to_sync = fields.Boolean('Enable Product To Sync')
@@ -31,23 +31,23 @@ class DbtMarketplaceBase(models.Model):
     child_class_name = fields.Char('Name of child class')
     child_class_id = fields.Integer('id of child class record')
 
-    # order_fetch_function = fields.Char('Order Fetch Function')
-    # product_to_sync_function = fields.Char('Product To Sync Function')
-    # product_from_sync_function = fields.Char('Product From Sync Function')
-    # shipment_sync_function = fields.Char('Shipment Sync Function')
-
     color = fields.Integer(string='Color Index',
                            help="The color of the channel")
-
-    # @api.model
-    # def write(self, vals):
-    #     self.log(vals)
-    #     record = super(DbtMarketplaceBase, self).write(vals)
-    #     return record
 
     def log(self, msg):
         if self._debug:
             _logger.info(msg)
+
+    @api.depends('child_class_id','child_class_name')
+    def get_latest_order_count(self):
+        try:
+            for rec in self:
+                if rec.child_class_name and rec.child_class_id:
+                    rec.latest_order_count = rec.env[rec.child_class_name].browse(
+                            rec.child_class_id
+                        ).bol_instance.latest_order_count
+        except:
+            traceback.print_exc()
 
     @api.multi
     def fetch_order_action(self):

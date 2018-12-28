@@ -143,7 +143,7 @@
 
         <!-- dbt Dashboard action -->
         <record id="dbt_dashboard_action" model="ir.actions.act_window">
-            <field name="name">dbt.com</field>
+            <field name="name">Dashboard</field>
             <field name="res_model">dbt.marketplace.base</field>
             <field name="type">ir.actions.act_window</field>
             <field name="view_type">form</field>
