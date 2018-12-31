@@ -16,19 +16,9 @@
                                 <field name="name" />
                             </h1>
                         </div>
-                       <group string="Option" attrs="{'invisible':[('connected','=',False)]}">
-                        </group>
                         <group string="Connection">
-                            <!-- <field name="dbt_test"/> -->
                             <field name="active"/>
-                            <field name="connected" />
-                            <button name="test_connection" string="Test Connection" type="object" attrs="{'invisible':[('connected','=',True)]}" />
                         </group>
-                        <notebook>
-                            <page string="Sales" attrs="{'invisible':[('connected','=',False)]}">
-                                <!-- <field name="sales"/> -->
-                            </page>
-                        </notebook>
                     </sheet>
                 </form>
             </field>
@@ -54,7 +44,6 @@
             <field name="arch" type="xml">
                 <kanban class="oe_background_grey o_kanban_dashboard o_stock_kanban" create="0">
                     <field name="name"/>
-                    <field name="connected"/>
                     <field name="latest_order_count"/>
                     <templates>
                         <t t-name="kanban-box">
@@ -76,7 +65,7 @@
                                 <div class="container o_kanban_card_content o_visible">
                                     <div class="row text-muted">
                                         <div class="col-6 o_kanban_primary_left">
-                                            <button class="btn btn-primary" type="action">
+                                            <button class="btn btn-primary" name="view_latest_orders" type="object">
                                                 <span ><t t-esc="record.latest_order_count.value"/> - Latest Orders</span>
                                             </button>
                                         </div>
@@ -93,10 +82,10 @@
                                                 <a name="view_all_orders" type="object">All Orders</a>
                                             </div>
                                             <div name="dbt_div_view_pending_orders" >
-                                                <a type="action">Pending Orders</a>
+                                                <a name="view_pending_orders" type="object">Pending Orders</a>
                                             </div>
                                             <div name="dbt_div_view_shipment" >
-                                                <a type="action">Shipments</a>
+                                                <a name="view_shipment" type="object">Shipments</a>
                                             </div>
                                         </div>
                                         <div name="dbt_div_action_main" class="col-6 o_kanban_card_manage_section o_kanban_manage_new">
@@ -107,19 +96,16 @@
                                                 <a type="action">Print invoice</a>
                                             </div>
                                             <div name="dbt_div_action_get_new_orders" >
-                                                <a name="fetch_order_action" type="object">Get new orders</a>
+                                                <a name="fetch_order_action" type="object">Get New Orders</a>
                                             </div>
                                             <div name="dbt_div_action_sync_from_products" >
-                                                <a name="sync_from_products_action" type="object">Sync products from Bol</a>
+                                                <a name="sync_from_products_action" type="object">Sync Products from Bol</a>
                                             </div>
                                             <div name="dbt_div_action_sync_to_products" >
-                                                <a name="sync_to_products_action" type="object">Sync products to Bol</a>
+                                                <a name="sync_to_products_action" type="object">Sync Products to Bol</a>
                                             </div>
                                             <div name="dbt_div_action_sync_shipment" >
-                                                <a name="sync_shipment_action" type="object">Sync shipment</a>
-                                            </div>
-                                            <div name="dbt_div_action_sync_shipment" invisible="1">
-                                                <a name="sync_shipment" type="action">Send shipping information to Bol</a>
+                                                <a name="sync_shipment_action" type="object">Sync Shipment</a>
                                             </div>
                                         </div>
                                     </div>
