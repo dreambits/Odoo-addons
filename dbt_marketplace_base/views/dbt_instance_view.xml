@@ -52,7 +52,7 @@
                                 <div class="o_kanban_card_header">
                                     <div class="o_kanban_card_header_title">
                                         <div class="o_primary">
-                                            <a type="object" name="get_action_latest_order_count">
+                                            <a name="">
                                                 <field name="name"/>
                                             </a>
                                         </div>
@@ -133,7 +133,7 @@
             <field name="res_model">dbt.marketplace.base</field>
             <field name="type">ir.actions.act_window</field>
             <field name="view_type">form</field>
-            <field name="view_mode">kanban</field>
+            <field name="view_mode">kanban,form</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">
                 </p>
