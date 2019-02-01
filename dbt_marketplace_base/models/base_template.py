@@ -64,6 +64,8 @@ class DbtMarketplaceBase(models.Model):
                     self.child_class_id).with_delay().fetch_orders()
                 self.get_latest_order_count()
                 self.log("Inside fetch_orders for marketplace self.latest_order_count-> {0}".format(self.latest_order_count))
+                if hasattr(self.env.user,"notify_info") and self.env.user.notify_info:
+                    self.env.user.notify_info("Sync started for orders from bol to odoo")
         except:
             traceback.print_exc()
 
@@ -79,6 +81,8 @@ class DbtMarketplaceBase(models.Model):
                 self.log("Child class found")
                 self.env[self.child_class_name].browse(
                     self.child_class_id).with_delay().sync_from_products()
+                if hasattr(self.env.user,"notify_info") and self.env.user.notify_info:
+                    self.env.user.notify_info("Sync started for products from bol to odoo")
         except:
             traceback.print_exc()
 
@@ -94,6 +98,8 @@ class DbtMarketplaceBase(models.Model):
                 self.log("Child class found")
                 self.env[self.child_class_name].browse(
                     self.child_class_id).with_delay().sync_to_products()
+                if hasattr(self.env.user,"notify_info") and self.env.user.notify_info:
+                    self.env.user.notify_info("Sync started for products from odoo to bol")
         except:
             traceback.print_exc()
 
@@ -109,6 +115,8 @@ class DbtMarketplaceBase(models.Model):
                 self.log("Child class found")
                 self.env[self.child_class_name].browse(
                     self.child_class_id).with_delay().sync_shipments()
+                if hasattr(self.env.user,"notify_info") and self.env.user.notify_info:
+                    self.env.user.notify_info("Sync started for shipment from bol to odoo")
         except:
             traceback.print_exc()
 
