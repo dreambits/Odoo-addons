@@ -71,6 +71,8 @@ class DbtMarketplaceBase(models.Model):
                 self.env[self.child_class_name].browse(
                     self.child_class_id).with_delay().fetch_orders()
                 self.get_latest_order_count()
+                if hasattr(self.env.user,"notify_info") and self.env.user.notify_info:
+                    self.env.user.notify_info("Sync started for orders from bol to odoo")
         except:
             traceback.print_exc()
 
@@ -84,6 +86,8 @@ class DbtMarketplaceBase(models.Model):
             if self.enable_product_from_sync and self.child_class_name and self.child_class_id:
                 self.env[self.child_class_name].browse(
                     self.child_class_id).with_delay().sync_from_products()
+                if hasattr(self.env.user,"notify_info") and self.env.user.notify_info:
+                    self.env.user.notify_info("Sync started for products from bol to odoo")
         except:
             traceback.print_exc()
 
@@ -97,6 +101,8 @@ class DbtMarketplaceBase(models.Model):
             if self.enable_product_to_sync and self.child_class_name and self.child_class_id:
                 self.env[self.child_class_name].browse(
                     self.child_class_id).with_delay().sync_to_products()
+                if hasattr(self.env.user,"notify_info") and self.env.user.notify_info:
+                    self.env.user.notify_info("Sync started for products from odoo to bol")
         except:
             traceback.print_exc()
 
@@ -110,6 +116,8 @@ class DbtMarketplaceBase(models.Model):
             if self.enable_shipment_sync  and self.child_class_name and self.child_class_id:
                 self.env[self.child_class_name].browse(
                     self.child_class_id).with_delay().sync_shipments()
+                if hasattr(self.env.user,"notify_info") and self.env.user.notify_info:
+                    self.env.user.notify_info("Sync started for shipment from bol to odoo")
         except:
             traceback.print_exc()
 
@@ -155,7 +163,6 @@ class DbtMarketplaceBase(models.Model):
             return self.env[self.child_class_name].browse(
                 self.child_class_id).view_all_orders()
 
-    ## The functions needed to open appropriate window for view actions of dashboard ##
     def view_pending_orders(self):
         """
         @brief      The functions needed to open appropriate window for view actions of dashboard
@@ -169,7 +176,6 @@ class DbtMarketplaceBase(models.Model):
             return self.env[self.child_class_name].browse(
                 self.child_class_id).view_pending_orders()
 
-    ## The functions needed to open appropriate window for view actions of dashboard ##
     def view_shipment(self):
         """
         @brief      The functions needed to open appropriate window for view actions of dashboard
@@ -184,7 +190,6 @@ class DbtMarketplaceBase(models.Model):
             return self.env[self.child_class_name].browse(
                 self.child_class_id).view_shipment()
 
-    ## The functions needed to open appropriate window for view actions of dashboard ##
     def view_latest_orders(self):
         """
         @brief      The functions needed to open appropriate window for view actions of dashboard
