@@ -22,13 +22,13 @@ class DbtMarketplaceBase(models.Model):
 
     latest_order_count = fields.Integer("New Order Count", compute="get_latest_order_count")
 
-    enable_order_fetching = fields.Boolean('Enable Order fetching')
+    enable_order_fetching = fields.Boolean('Enable Order Fetching')
     enable_product_to_sync = fields.Boolean('Enable Product To Sync')
     enable_product_from_sync = fields.Boolean('Enable Product From Sync')
     enable_shipment_sync = fields.Boolean('Enable Shipment Sync')
 
     child_class_name = fields.Char('Name of child class')
-    child_class_id = fields.Integer('id of child class record')
+    child_class_id = fields.Integer('Id of child class record')
 
     color = fields.Integer(string='Color Index',
                            help="The color of the channel")
@@ -46,7 +46,6 @@ class DbtMarketplaceBase(models.Model):
                     rec.latest_order_count = rec.env[rec.child_class_name].browse(
                             rec.child_class_id
                         ).get_latest_order_count()
-                self.log("Inside get_latest_order_count for marketplace rec.latest_order_count-> {0}".format(rec.latest_order_count))
         except:
             traceback.print_exc()
 
@@ -54,16 +53,12 @@ class DbtMarketplaceBase(models.Model):
     def fetch_order_action(self):
         try:
             self.log("Inside fetch_orders for marketplace")
-            self.log(self.enable_order_fetching)
             if self.enable_order_fetching and self.child_class_name and self.child_class_id:
                 self.log("Function calling starts")
-                self.log(self.child_class_name)
-                self.log(self.child_class_id)
                 self.log("Child class found")
                 self.env[self.child_class_name].browse(
                     self.child_class_id).with_delay().fetch_orders()
                 self.get_latest_order_count()
-                self.log("Inside fetch_orders for marketplace self.latest_order_count-> {0}".format(self.latest_order_count))
         except:
             traceback.print_exc()
 
@@ -71,11 +66,8 @@ class DbtMarketplaceBase(models.Model):
     def sync_from_products_action(self):
         try:
             self.log("Inside sync_from_products_action for marketplace")
-            self.log(self.enable_order_fetching)
             if self.enable_product_from_sync and self.child_class_name and self.child_class_id:
                 self.log("Function calling starts")
-                self.log(self.child_class_name)
-                self.log(self.child_class_id)
                 self.log("Child class found")
                 self.env[self.child_class_name].browse(
                     self.child_class_id).with_delay().sync_from_products()
@@ -86,11 +78,8 @@ class DbtMarketplaceBase(models.Model):
     def sync_to_products_action(self):
         try:
             self.log("Inside sync_to_products_action for marketplace")
-            self.log(self.enable_order_fetching)
             if self.enable_product_to_sync and self.child_class_name and self.child_class_id:
                 self.log("Function calling starts")
-                self.log(self.child_class_name)
-                self.log(self.child_class_id)
                 self.log("Child class found")
                 self.env[self.child_class_name].browse(
                     self.child_class_id).with_delay().sync_to_products()
@@ -101,11 +90,8 @@ class DbtMarketplaceBase(models.Model):
     def sync_shipment_action(self):
         try:
             self.log("Inside sync_shipments_action for marketplace")
-            self.log(self.enable_order_fetching)
             if self.enable_shipment_sync  and self.child_class_name and self.child_class_id:
                 self.log("Function calling starts")
-                self.log(self.child_class_name)
-                self.log(self.child_class_id)
                 self.log("Child class found")
                 self.env[self.child_class_name].browse(
                     self.child_class_id).with_delay().sync_shipments()
@@ -131,21 +117,21 @@ class DbtMarketplaceBase(models.Model):
     ## The functions needed to open appropriate window for view actions of dashboard ##
     def view_all_orders(self):
         self.log("Inside view all orders: marketplace")
-        # raise NotImplementedError('Must be overrided in child class')
+        # raise NotImplementedError('Must be overridden in child class')
         if self.child_class_name and self.child_class_id:
             return self.env[self.child_class_name].browse(
                 self.child_class_id).view_all_orders()
 
     ## The functions needed to open appropriate window for view actions of dashboard ##
     def view_pending_orders(self):
-        # raise NotImplementedError('Must be overrided in child class')
+        # raise NotImplementedError('Must be overridden in child class')
         if self.child_class_name and self.child_class_id:
             return self.env[self.child_class_name].browse(
                 self.child_class_id).view_pending_orders()
 
     ## The functions needed to open appropriate window for view actions of dashboard ##
     def view_shipment(self):
-        # raise NotImplementedError('Must be overrided in child class')
+        # raise NotImplementedError('Must be overridden in child class')
         self.log("Inside view shipment: marketplace")
         if self.child_class_name and self.child_class_id:
             return self.env[self.child_class_name].browse(

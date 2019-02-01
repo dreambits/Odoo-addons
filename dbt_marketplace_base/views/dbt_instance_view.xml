@@ -16,7 +16,17 @@
                                 <field name="name" />
                             </h1>
                         </div>
-                        <group string="Connection">
+                        <group name="action_related" string="Actions related...">
+                            <group>
+                                <field name="enable_order_fetching"/>
+                                <field name="enable_shipment_sync"/>
+                            </group>
+                            <group>
+                                <field name="enable_product_from_sync"/>
+                                <field name="enable_product_to_sync"/>
+                            </group>
+                        </group>
+                        <group name="connection" string="Connection">
                             <field name="active"/>
                         </group>
                     </sheet>
