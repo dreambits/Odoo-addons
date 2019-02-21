@@ -304,3 +304,6 @@ class ShipmentTransporter(models.Model):
     get_output_method = fields.Char('Fetch output Method')
 
     active = fields.Boolean('Active')
+
+    _sql_constraints = [('transporter_code_uniq', 'unique (transporter_code)',
+                     'Duplicate transporter code not allowed !')]
