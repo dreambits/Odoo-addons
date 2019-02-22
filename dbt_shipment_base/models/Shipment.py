@@ -305,5 +305,7 @@ class ShipmentTransporter(models.Model):
 
     active = fields.Boolean('Active')
 
+    should_override_existing = fields.Boolean("Override existing transporter?")
+
     _sql_constraints = [('transporter_code_uniq', 'unique (transporter_code)',
                      'Duplicate transporter code not allowed !')]
