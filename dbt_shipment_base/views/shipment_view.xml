@@ -46,6 +46,10 @@
                             <field name="associated_pickings" readonly="1"/>
                         </page>
 
+                        <page string="Associated options" attrs="{'invisible':[('transporter','=',False)]}">
+                            <field name="associated_options" />
+                        </page>
+
                         <page String="Input Details" attrs="{'invisible':[('input_file_name','=',False)]}">
                             <group>
                                 <field name="input_file_name" readonly="1"/>
@@ -94,5 +98,35 @@
     </record>
 
     <menuitem name="Shipments" id="menu_sale_config_shipment" parent="sale.sale_order_menu" sequence="11" groups="stock.group_stock_manager" action="action_shipments"/>
+
+    <record id="view_dbt_shipment_options_form" model="ir.ui.view">
+        <field name="name">dbt.shipment.options.form</field>
+        <field name="model">dbt.shipment.options</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Shipment options">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="value"/>
+                        <field name="field_type"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_dbt_shipment_options_tree" model="ir.ui.view">
+        <field name="name">dbt.shipment.options.tree</field>
+        <field name="model">dbt.shipment.options</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="Shipment options">
+                <field name="name"/>
+                <field name="value"/>
+                <field name="field_type"/>
+            </tree>
+        </field>
+    </record>
 
 </odoo>

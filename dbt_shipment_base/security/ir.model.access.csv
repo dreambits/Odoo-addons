@@ -3,3 +3,5 @@ access_dbt_shipment_transporter,access_dbt_shipment_transporter,model_dbt_shipme
 access_dbt_shipment_transporter_sales,access_dbt_shipment_transporter_sales,model_dbt_shipment_transporter,sales_team.group_sale_manager,1,1,1,1
 access_dbt_shipment,access_dbt_shipment,model_dbt_shipment,,1,0,0,0
 access_dbt_shipment_sales,access_dbt_shipment_sales,model_dbt_shipment,sales_team.group_sale_manager,1,1,1,1
+access_dbt_shipment_options,access_dbt_shipment_options,model_dbt_shipment_options,base.group_user,1,1,1,1
+
