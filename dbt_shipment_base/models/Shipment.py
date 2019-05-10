@@ -57,6 +57,9 @@ class Shipment(models.Model):
     associated_pickings = fields.One2many('stock.picking',
                                           'associated_shipment',
                                           string='Associated Stock Pickings')
+    associated_options = fields.One2many('dbt.shipment.options',
+                                         'shipment_id',
+                                         string='Associated Options')
 
     ready_for_sync = fields.Boolean('Ready for Sync')
     synced = fields.Boolean('Synced')
@@ -304,3 +307,12 @@ class ShipmentTransporter(models.Model):
     get_output_method = fields.Char('Fetch output Method')
 
     active = fields.Boolean('Active')
+
+
+class ShipmentOptions(models.Model):
+    _name = "dbt.shipment.options"
+
+    name = fields.Char('Field')
+    value = fields.Char('Value')
+    field_type = fields.Char('Type')
+    shipment_id = fields.Many2one('dbt.shipment')
