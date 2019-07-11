@@ -214,8 +214,7 @@ class CustomStockPicking(models.Model):
         _logger.info("We are now inside stock picking")
 
         company = self.env['res.company']._company_default_get('stock.picking')
-        picking_type = company.shippment_picking_type_id.id
-        _logger.info("picking_type-> {0}".format(picking_type))
+        picking_type = company.shipment_picking_type_id.id
 
         if self.picking_type_id.id == picking_type:
             transporter = self.associated_shipment.transporter
@@ -265,7 +264,7 @@ class CustomStockPicking(models.Model):
                 _logger.info(rec.state)
 
                 company = self.env['res.company']._company_default_get('stock.picking')
-                picking_type = company.shippment_picking_type_id.id
+                picking_type = company.shipment_picking_type_id.id
                 _logger.info("picking_type-> {0}".format(picking_type))
                 # when the packing stock.picking is available then state should
                 # be changed to 'ready'

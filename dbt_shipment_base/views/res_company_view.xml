@@ -9,7 +9,7 @@
             <xpath expr="//notebook" position="inside">
                 <page name="shipment_config" string="Shipment Configuration">
                     <group>
-                        <field name="shippment_picking_type_id"/>
+                        <field name="shipment_picking_type_id"/>
                     </group>
                 </page>
              </xpath>
