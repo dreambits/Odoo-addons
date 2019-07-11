@@ -20,6 +20,9 @@
     'data': [
         'views/shipment_view.xml',
         'views/stock_picking_view.xml',
+        'views/dbt_instance_view.xml',
+
+        'security/ir.model.access.csv',
     ],
     'license': 'LGPL-3',
     'installable': True,

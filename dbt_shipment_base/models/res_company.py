@@ -8,4 +8,4 @@ _logger = logging.getLogger(__name__)
 class Company(models.Model):
     _inherit = "res.company"
 
-    shippment_picking_type_id = fields.Many2one('stock.picking.type', required=1)
+    shipment_picking_type_id = fields.Many2one('stock.picking.type', required=1)
