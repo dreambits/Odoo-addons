@@ -60,7 +60,6 @@ class DbtMarketplaceBase(models.Model):
         except:
             traceback.print_exc()
 
-    @api.multi
     def fetch_order_action(self):
         """
         This function will help to fetch order from child class.
@@ -76,7 +75,6 @@ class DbtMarketplaceBase(models.Model):
         except:
             traceback.print_exc()
 
-    @api.multi
     def sync_from_products_action(self):
         """
         This function will help to fetch products from Marketplace from child class.
@@ -91,7 +89,6 @@ class DbtMarketplaceBase(models.Model):
         except:
             traceback.print_exc()
 
-    @api.multi
     def sync_to_products_action(self):
         """
         This function will help to fetch products to Marketplace from child class.
@@ -106,7 +103,6 @@ class DbtMarketplaceBase(models.Model):
         except:
             traceback.print_exc()
 
-    @api.multi
     def sync_shipment_action(self):
         """
         This function will help to sync shipment from child class.

@@ -1,7 +1,7 @@
 {
     'name': 'Dreambits Marketplace Base',
-    'version': '12.0.1.0.0',
-    'depends': ['dbt_shipment_base'],
+    'version': '13.0.1.0.0',
+    'depends': ['dbt_shipment_base', 'queue_job'],
     'summary': 'Module to have Shipment and Shipment Transporter Models',
     'description': """
         This module includes base for integrating various marketplaces into the
