@@ -1,7 +1,7 @@
 #  /usr/bin/env python
 #  -*- coding: utf-8 -*-
 
-from odoo import models,  fields,  api
+from odoo import models, fields, api
 import logging
 
 _logger = logging.getLogger(__name__)
@@ -53,7 +53,7 @@ class Shipment(models.Model):
 
     associated_sale = fields.Many2one('sale.order',
                                       string='Associated Sales Order',
-                                      required=True,  ondelete='cascade')
+                                      required=True, ondelete='cascade')
     associated_pickings = fields.One2many('stock.picking',
                                           'associated_shipment',
                                           string='Associated Stock Pickings')
@@ -65,17 +65,16 @@ class Shipment(models.Model):
     synced = fields.Boolean('Synced')
 
     @api.model
-    def create(self,  vals):
+    def create(self, vals):
         _logger.info("inside set name")
         name = self.env['ir.sequence'].next_by_code('dbt.shipment')
 
         vals["name"] = name
         vals["state"] = "ready"
         vals["label_state"] = "waiting"
-        return super(Shipment,  self).create(vals)
+        return super(Shipment, self).create(vals)
 
     @api.model
-    @api.multi
     def name_get(self):
         _logger.info("Inside name_get fn")
         result = []
@@ -84,7 +83,7 @@ class Shipment(models.Model):
                 record.name,
                 record.transporter.name if record.transporter.name else "None",
                 record.associated_sale.name)
-            result.append((record.id,  name))
+            result.append((record.id, name))
         return result
 
     @api.depends('associated_sale')
@@ -109,7 +108,7 @@ class Shipment(models.Model):
             _logger.info("Shipment: " + str(shipments.name)
                          + ": calling output method from scheduler")
             transporter = shipments.transporter
-            output_method = getattr(transporter,  transporter.get_output_method)
+            output_method = getattr(transporter, transporter.get_output_method)
             output_method(self.associated_shipment)
 
     def action_sync(self):
@@ -134,13 +133,11 @@ class CustomSaleOrder(models.Model):
 
         return name_list
 
-    @api.multi
     def action_confirm(self):
         res = super(CustomSaleOrder, self).action_confirm()
         self.create_shipment()
         return res
 
-    @api.multi
     def write(self, vals):
         res = super(CustomSaleOrder, self).write(vals)
 
@@ -208,9 +205,8 @@ class CustomStockPicking(models.Model):
     _inherit = 'stock.picking'
     associated_shipment = fields.Many2one('dbt.shipment', 'Shipment')
 
-    @api.multi
-    def action_done(self):
-        prev = super(CustomStockPicking, self).action_done()
+    def _action_done(self):
+        prev = super(CustomStockPicking, self)._action_done()
         _logger.info("We are now inside stock picking")
 
         company = self.env['res.company']._company_default_get('stock.picking')
@@ -224,8 +220,8 @@ class CustomStockPicking(models.Model):
             generate_method = transporter.generate_file_method
             output_method = transporter.get_output_method
 
-            _logger.info(generate_method)
-            _logger.info(output_method)
+            _logger.info("generate_method %s" % generate_method)
+            _logger.info("output_method %s" % output_method)
 
             if transporter.transporter_type == "manual":
                 _logger.info("Manual transportation so no label is generated")
@@ -238,21 +234,20 @@ class CustomStockPicking(models.Model):
                 #  method so it should get the relevant shipment and keep it
                 #  updated
                 if generate_method and not generate_method == "":
-                    input_function = getattr(transporter,  generate_method)
+                    input_function = getattr(transporter, generate_method)
                     input_function(self)
 
                 if output_method and not output_method == "":
-                    output_function = getattr(transporter,  output_method)
+                    output_function = getattr(transporter, output_method)
                     output_function(self.associated_shipment)
         return prev
 
-    @api.multi
     def write(self, vals):
         _logger.info("inside stock picking write")
         _logger.info(self)
         _logger.info(vals)
 
-        result = super(CustomStockPicking,  self).write(vals)
+        result = super(CustomStockPicking, self).write(vals)
         for rec in self:
 
             _logger.info(rec)
@@ -310,7 +305,8 @@ class ShipmentTransporter(models.Model):
     should_override_existing = fields.Boolean("Override existing transporter?")
 
     _sql_constraints = [('transporter_code_uniq', 'unique (transporter_code)',
-                     'Duplicate transporter code not allowed !')]
+                         'Duplicate transporter code not allowed !')]
+
 
 class ShipmentOptions(models.Model):
     _name = "dbt.shipment.options"
