@@ -159,6 +159,7 @@ class CustomSaleOrder(models.Model):
         # lets get the tranporter and make the relevant
 
         # lets get the state. If it is confirmed SO then also proceed
+        logging.info("***************************************************************************")
         state = self.state
         if state == "sale":
             # lets check if shipment is already available or not
@@ -176,6 +177,7 @@ class CustomSaleOrder(models.Model):
                 else:
                     values = {
                         'associated_sale': self.id,
+                        # 'shipment_id': self.id,
                     }
                     shipment = self.env['dbt.shipment'].create(values)
 
@@ -199,6 +201,7 @@ class CustomSaleOrder(models.Model):
             _logger.info(pickings)
             if pickings:
                 shipment.associated_pickings = [(6, False, pickings)]
+                # shipment.shipment_id = self.id
 
 
 class CustomStockPicking(models.Model):
@@ -229,17 +232,19 @@ class CustomStockPicking(models.Model):
             else:
                 #  The transporter's method need to update label state and
                 # state of shipment
-                _logger.info("now lets call this methods")
+                _logger.info("now lets call this methods:" )
                 #  we are sending the stock picking object while calling the
                 #  method so it should get the relevant shipment and keep it
                 #  updated
                 if generate_method and not generate_method == "":
                     input_function = getattr(transporter, generate_method)
                     input_function(self)
+                    _logger.info("input_function in _action_done():")
 
                 if output_method and not output_method == "":
                     output_function = getattr(transporter, output_method)
                     output_function(self.associated_shipment)
+                    _logger.info("output_function in _action_done():")
         return prev
 
     def write(self, vals):
